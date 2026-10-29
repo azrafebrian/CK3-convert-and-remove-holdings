@@ -1,0 +1,71 @@
+halfsade_conversion_gold_cost = {
+	value = 250
+	if = {
+		limit = { scope:halfsade_target_barony.title_province = { has_holding_type = city_holding } }
+		add = 100
+	}
+	if = {
+		limit = {
+			scope:halfsade_target_barony.title_province = {
+				OR = {
+					has_holding_type = church_holding
+					has_holding_type = temple_citadel_holding
+				}
+			}
+		}
+		add = 50
+	}
+}
+
+halfsade_conversion_prestige_cost = 50
+
+halfsade_conversion_piety_cost = {
+	value = 25
+	if = {
+		limit = {
+			scope:halfsade_target_barony.title_province = {
+				OR = {
+					has_holding_type = church_holding
+					has_holding_type = temple_citadel_holding
+				}
+			}
+		}
+		add = 75
+	}
+}
+
+halfsade_removal_gold_cost = {
+	value = 400
+	if = {
+		limit = { scope:halfsade_target_barony.title_province = { has_holding_type = city_holding } }
+		add = 150
+	}
+	if = {
+		limit = {
+			scope:halfsade_target_barony.title_province = {
+				OR = {
+					has_holding_type = church_holding
+					has_holding_type = temple_citadel_holding
+				}
+			}
+		}
+		add = 100
+	}
+}
+
+halfsade_removal_prestige_cost = 100
+
+halfsade_removal_piety_cost = {
+	value = 75
+	if = {
+		limit = {
+			scope:halfsade_target_barony.title_province = {
+				OR = {
+					has_holding_type = church_holding
+					has_holding_type = temple_citadel_holding
+				}
+			}
+		}
+		add = 125
+	}
+}

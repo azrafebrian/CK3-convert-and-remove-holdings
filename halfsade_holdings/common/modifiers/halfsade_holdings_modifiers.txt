@@ -1,0 +1,13 @@
+# holding modifier
+halfsade_holding_upheaval_modifier = {
+	icon = county_modifier_opinion_negative
+	tax_mult = -0.25
+	levy_size = -0.25
+}
+
+# county modifier
+halfsade_county_unrest_modifier = {
+	icon = county_modifier_development_negative
+	county_opinion_add = -15
+	development_growth_factor = -0.5
+}

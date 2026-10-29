@@ -1,0 +1,163 @@
+halfsade_pay_conversion_cost = {
+	remove_short_term_gold = halfsade_conversion_gold_cost
+	add_prestige = { value = halfsade_conversion_prestige_cost multiply = -1 }
+	add_piety = { value = halfsade_conversion_piety_cost multiply = -1 }
+}
+
+halfsade_pay_removal_cost = {
+	remove_short_term_gold = halfsade_removal_gold_cost
+	add_prestige = { value = halfsade_removal_prestige_cost multiply = -1 }
+	add_piety = { value = halfsade_removal_piety_cost multiply = -1 }
+}
+
+# track special building slots
+halfsade_record_holding_slots = {
+	hidden_effect = {
+		if = {
+			limit = { var:halfsade_target_province = { has_special_building_slot = yes } }
+			set_variable = halfsade_had_special_slot
+		}
+		halfsade_record_special_key = yes
+		if = {
+			limit = { var:halfsade_target_province = { has_great_building_slot = yes } }
+			set_variable = halfsade_had_great_slot
+		}
+	}
+}
+
+# restore special building slots
+halfsade_restore_holding_slots = {
+	hidden_effect = {
+		if = {
+			limit = { has_variable = halfsade_had_special_slot }
+			var:halfsade_target_province = {
+				if = {
+					limit = { has_special_building_slot = no }
+					halfsade_restore_special_slots = yes
+				}
+			}
+		}
+		if = {
+			limit = { has_variable = halfsade_had_great_slot }
+			var:halfsade_target_province = {
+				if = {
+					limit = { has_great_building_slot = no }
+					halfsade_restore_great_slots = yes
+				}
+			}
+		}
+	}
+}
+
+halfsade_clear_holding_flow = {
+	hidden_effect = {
+		remove_variable = halfsade_target_province
+		remove_variable = halfsade_chosen_type
+		remove_variable = halfsade_had_special_slot
+		remove_variable = halfsade_had_great_slot
+		remove_variable = halfsade_special_key
+		if = {
+			limit = { exists = scope:halfsade_target_holder }
+			clear_saved_scope = halfsade_target_holder
+		}
+		if = {
+			limit = { exists = scope:halfsade_target_barony }
+			clear_saved_scope = halfsade_target_barony
+		}
+	}
+}
+
+halfsade_convert_holding_effect = {
+	halfsade_pay_conversion_cost = yes
+	halfsade_record_holding_slots = yes
+	hidden_effect = {
+		var:halfsade_target_province = { halfsade_wipe_buildings = yes }
+	}
+	var:halfsade_target_province = {
+		set_holding_type = $TYPE$
+		add_province_modifier = {
+			modifier = halfsade_holding_upheaval_modifier
+			years = 4
+		}
+	}
+	scope:halfsade_target_barony.county = {
+		add_county_modifier = {
+			modifier = halfsade_county_unrest_modifier
+			years = 2
+		}
+	}
+	halfsade_restore_holding_slots = yes
+	halfsade_update_holder_government = yes
+}
+
+halfsade_update_holder_government = {
+	if = {
+		limit = {
+			exists = scope:halfsade_target_barony.holder
+			scope:halfsade_target_barony.holder = { NOT = { this = root } }
+		}
+		scope:halfsade_target_barony.holder = {
+			if = {
+				limit = {
+					scope:halfsade_target_barony.title_province = {
+						OR = {
+							has_holding_type = castle_holding
+							has_holding_type = temple_citadel_holding
+						}
+					}
+				}
+				if = {
+					limit = { root = { has_government = clan_government } }
+					if = {
+						limit = { NOT = { has_government = clan_government } }
+						change_government = clan_government
+					}
+				}
+				else = {
+					if = {
+						limit = { NOT = { has_government = feudal_government } }
+						change_government = feudal_government
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					scope:halfsade_target_barony.title_province = { has_holding_type = nomad_holding }
+					has_mpo_dlc_trigger = yes
+				}
+				if = {
+					limit = { NOT = { has_government = nomad_government } }
+					change_government = nomad_government
+				}
+			}
+			else_if = {
+				limit = { scope:halfsade_target_barony.title_province = { has_holding_type = herder_holding } }
+				if = {
+					limit = { NOT = { has_government = herder_government } }
+					change_government = herder_government
+				}
+			}
+			else_if = {
+				limit = { scope:halfsade_target_barony.title_province = { has_holding_type = city_holding } }
+				if = {
+					limit = { NOT = { has_government = republic_government } }
+					change_government = republic_government
+				}
+			}
+			else_if = {
+				limit = { scope:halfsade_target_barony.title_province = { has_holding_type = church_holding } }
+				if = {
+					limit = { NOT = { has_government = theocracy_government } }
+					change_government = theocracy_government
+				}
+			}
+			else_if = {
+				limit = { scope:halfsade_target_barony.title_province = { has_holding_type = tribal_holding } }
+				if = {
+					limit = { NOT = { has_government = tribal_government } }
+					change_government = tribal_government
+				}
+			}
+		}
+	}
+}

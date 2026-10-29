@@ -1,0 +1,314 @@
+namespace = halfsade_holdings
+
+# holding type selection - event page 1
+halfsade_holdings.0001 = {
+	type = character_event
+	title = halfsade_holdings.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = castle_holding } }
+				desc = halfsade_holdings.0001.desc.castle
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = city_holding } }
+				desc = halfsade_holdings.0001.desc.city
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = church_holding } }
+				desc = halfsade_holdings.0001.desc.temple
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = tribal_holding } }
+				desc = halfsade_holdings.0001.desc.tribal
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = nomad_holding } }
+				desc = halfsade_holdings.0001.desc.nomad
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = herder_holding } }
+				desc = halfsade_holdings.0001.desc.herder
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_target_province = { has_holding_type = temple_citadel_holding } }
+				desc = halfsade_holdings.0001.desc.temple_citadel
+			}
+			desc = halfsade_holdings.0001.desc
+		}
+	}
+	theme = realm
+	override_background = { reference = throne_room }
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	option = { # castle
+		name = halfsade_holdings.0001.castle
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = castle_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:castle_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # city
+		name = halfsade_holdings.0001.city
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = city_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:city_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # temple
+		name = halfsade_holdings.0001.temple
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = church_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:church_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # tribal
+		name = halfsade_holdings.0001.tribal
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = tribal_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:tribal_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # nomad
+		name = halfsade_holdings.0001.nomad
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = nomad_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:nomad_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # herder
+		name = halfsade_holdings.0001.herder
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = herder_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:herder_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # temple_citadel
+		name = halfsade_holdings.0001.temple_citadel
+		trigger = {
+			var:halfsade_target_province = { NOT = { has_holding_type = temple_citadel_holding } }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:temple_citadel_holding }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # erase
+		name = halfsade_holdings.0001.remove
+		trigger = {
+			var:halfsade_target_province = { is_county_capital = no }
+		}
+		set_variable = { name = halfsade_chosen_type value = flag:remove }
+		trigger_event = halfsade_holdings.0002
+	}
+
+	option = { # cancel
+		name = halfsade_holdings.0001.cancel
+		remove_decision_cooldown = halfsade_change_holding_decision
+		add_character_flag = {
+			flag = halfsade_change_holding_cancelled
+			days = 10
+		}
+		halfsade_clear_holding_flow = yes
+	}
+}
+
+# holding type confirmation - event page 2
+halfsade_holdings.0002 = {
+	type = character_event
+	title = halfsade_holdings.0002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:remove }
+				desc = halfsade_holdings.0002.desc.remove
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:castle_holding }
+				desc = halfsade_holdings.0002.desc.castle
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:city_holding }
+				desc = halfsade_holdings.0002.desc.city
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:church_holding }
+				desc = halfsade_holdings.0002.desc.temple
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:tribal_holding }
+				desc = halfsade_holdings.0002.desc.tribal
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:nomad_holding }
+				desc = halfsade_holdings.0002.desc.nomad
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:herder_holding }
+				desc = halfsade_holdings.0002.desc.herder
+			}
+			triggered_desc = {
+				trigger = { var:halfsade_chosen_type = flag:temple_citadel_holding }
+				desc = halfsade_holdings.0002.desc.temple_citadel
+			}
+			desc = halfsade_holdings.0002.desc.remove
+		}
+		triggered_desc = {
+			trigger = {
+				OR = {
+					AND = {
+						NOT = { var:halfsade_chosen_type = flag:remove }
+						NOT = { halfsade_can_afford_conversion = yes }
+					}
+					AND = {
+						var:halfsade_chosen_type = flag:remove
+						NOT = { halfsade_can_afford_removal = yes }
+					}
+				}
+			}
+			desc = halfsade_holdings.0002.desc.poor
+		}
+	}
+	theme = realm
+	override_background = { reference = throne_room }
+	right_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { NOT = { var:halfsade_chosen_type = flag:remove } }
+			animation = throne_room_writer
+		}
+		animation = worry
+	}
+
+	option = { # confirm conversion
+		name = halfsade_holdings.0002.confirm
+		trigger = {
+			NOT = { var:halfsade_chosen_type = flag:remove }
+			halfsade_can_afford_conversion = yes
+		}
+		show_as_unavailable = {
+			NOT = { var:halfsade_chosen_type = flag:remove }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:castle_holding }
+			halfsade_convert_holding_effect = { TYPE = castle_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:city_holding }
+			halfsade_convert_holding_effect = { TYPE = city_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:church_holding }
+			halfsade_convert_holding_effect = { TYPE = church_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:tribal_holding }
+			halfsade_convert_holding_effect = { TYPE = tribal_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:nomad_holding }
+			halfsade_convert_holding_effect = { TYPE = nomad_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:herder_holding }
+			halfsade_convert_holding_effect = { TYPE = herder_holding }
+		}
+		if = {
+			limit = { var:halfsade_chosen_type = flag:temple_citadel_holding }
+			halfsade_convert_holding_effect = { TYPE = temple_citadel_holding }
+		}
+		halfsade_clear_holding_flow = yes
+	}
+
+	option = { # confirm remove
+		name = halfsade_holdings.0002.confirm
+		trigger = {
+			var:halfsade_chosen_type = flag:remove
+			halfsade_can_afford_removal = yes
+		}
+		show_as_unavailable = {
+			var:halfsade_chosen_type = flag:remove
+		}
+
+		halfsade_pay_removal_cost = yes
+		scope:halfsade_target_barony.county = {
+			add_county_modifier = {
+				modifier = halfsade_county_unrest_modifier
+				years = 4
+			}
+		}
+
+		hidden_effect = {
+			halfsade_record_holding_slots = yes
+
+			# remove lease from holding
+			scope:halfsade_target_barony = {
+				if = {
+					limit = {
+						OR = {
+							is_leased_out = yes
+							is_under_theocratic_lease = yes
+						}
+					}
+					revoke_lease = yes
+				}
+			}
+
+			# take title (root-remove)
+			create_title_and_vassal_change = {
+				type = revoked
+				save_scope_as = halfsade_holding_title_change
+				add_claim_on_loss = no
+			}
+			scope:halfsade_target_barony = {
+				change_title_holder = {
+					holder = root
+					change = scope:halfsade_holding_title_change
+					take_baronies = yes
+				}
+			}
+			resolve_title_and_vassal_change = scope:halfsade_holding_title_change
+
+			# remove holding
+			var:halfsade_target_province = {
+				set_holding_type = none
+				remove_holding = yes
+			}
+
+			# restore special building slot
+			halfsade_restore_holding_slots = yes
+
+			# invite previous holder (avoid stuck in limbo)
+			if = {
+				limit = {
+					exists = scope:halfsade_target_holder
+					scope:halfsade_target_holder = { is_landed = no }
+				}
+				scope:halfsade_target_holder = {
+					move_to_pool_at = root.capital_province
+				}
+				root = { add_courtier = scope:halfsade_target_holder }
+			}
+		}
+		halfsade_clear_holding_flow = yes
+	}
+
+	option = { # return to event 1
+		name = halfsade_holdings.0002.back
+		trigger_event = halfsade_holdings.0001
+	}
+}

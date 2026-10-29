@@ -1,0 +1,7 @@
+halfsade_can_afford_conversion = {
+	gold >= halfsade_conversion_gold_cost
+}
+
+halfsade_can_afford_removal = {
+	gold >= halfsade_removal_gold_cost
+}

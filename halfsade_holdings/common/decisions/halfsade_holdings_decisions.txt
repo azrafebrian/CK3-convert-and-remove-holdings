@@ -1,0 +1,75 @@
+halfsade_change_holding_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_castle_view.dds"
+	}
+	decision_group_type = realm
+	sort_order = 100
+	desc = halfsade_change_holding_decision_desc
+	confirm_text = halfsade_change_holding_decision_confirm
+	cooldown = { months = 2 }
+
+	is_shown = {
+		is_ai = no
+		is_landed = yes
+		NOT = { government_has_flag = government_is_landless_adventurer }
+	}
+
+	is_valid = {
+		is_landed = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		custom_description = {
+			text = halfsade_change_holding_cancel_cooldown
+			NOT = { has_character_flag = halfsade_change_holding_cancelled }
+		}
+	}
+
+	# holding selector
+	widget = {
+		controller = create_holy_order
+		title_valid = {
+			trigger_if = {
+				limit = { exists = this }
+				OR = {
+					holder ?= scope:ruler
+					holder = { is_vassal_of = scope:ruler }
+				}
+				title_province = { has_holding = yes }
+			}
+			trigger_else = {
+				custom_description = {
+					text = "halfsade_holding_selected"
+					always = no
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = { text = halfsade_change_holding_conversion_effect }
+		custom_tooltip = { text = halfsade_change_holding_buildings_effect }
+		if = {
+			limit = { exists = scope:barony }
+			set_variable = {
+				name = halfsade_target_province
+				value = scope:barony.title_province
+			}
+			scope:barony = { save_scope_as = halfsade_target_barony }
+			if = {
+				limit = {
+					scope:barony = { holder = { is_vassal_of = scope:ruler } }
+				}
+				scope:barony = {
+					holder = { save_scope_as = halfsade_target_holder }
+				}
+			}
+			trigger_event = halfsade_holdings.0001
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+}
